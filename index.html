@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Looply | 从美国出发，走向全球</title>
+  <style>
+    :root {
+      --bg: #0b0b0d;
+      --bg2: #111214;
+      --surface: rgba(255,255,255,0.08);
+      --surface-strong: rgba(255,255,255,0.12);
+      --line: rgba(255,255,255,0.12);
+      --text: #f5f1ea;
+      --muted: rgba(245,241,234,0.78);
+      --soft: rgba(245,241,234,0.56);
+      --blue: #d6b98a;
+      --blue2: #e6cfaa;
+      --teal: #c9a86a;
+      --shadow: 0 18px 48px rgba(0,0,0,0.24);
+      --radius: 26px;
+      --max: 1220px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background:
+        linear-gradient(rgba(6, 6, 8, 0.78), rgba(6, 6, 8, 0.90)),
+        url("bg.jpg") no-repeat center center;
+      background-size: cover;
+      background-attachment: fixed;
+      line-height: 1.68;
+    }
+
+    .globe-bg {
+      display: none;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+    }
+
+    header.nav {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(16px);
+      background: rgba(10, 10, 12, 0.58);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: #f8f4ee;
+    }
+
+    .brand span { color: #d6b98a; }
+
+    nav a {
+      color: rgba(245,241,234,0.78);
+      text-decoration: none;
+      font-size: 14px;
+      margin-left: 18px;
+    }
+
+    nav a:hover { color: #ffffff; }
+
+    section { padding: 58px 0; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero {
+      padding: 86px 0 62px;
+      position: relative;
+    }
+
+    h1 {
+      margin: 18px 0 18px;
+      font-size: 52px;
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+      max-width: 860px;
+      color: #fffaf3;
+    }
+
+    .hero-lead {
+      max-width: 880px;
+      font-size: 20px;
+      color: var(--muted);
+      line-height: 1.9;
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .hero-lead::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 8px;
+      width: 3px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #d6b98a, rgba(214,185,138,0.14));
+    }
+
+    .hero-card {
+      margin-top: 38px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .origin-text h3 {
+      margin: 0 0 12px;
+      font-size: 30px;
+      letter-spacing: -0.03em;
+      color: #fffaf3;
+    }
+
+    .origin-text p { margin: 0; color: var(--muted); }
+
+    .proof {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 22px;
+      padding: 20px;
+      min-height: 124px;
+      backdrop-filter: blur(10px);
+    }
+
+    .proof small {
+      display: block;
+      color: var(--soft);
+      font-size: 13px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .proof strong {
+      display: block;
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -0.05em;
+      margin-bottom: 8px;
+      color: #fffaf3;
+    }
+
+    .proof span {
+      color: var(--muted);
+      font-size: 14px;
+      display: block;
+    }
+
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      height: 100%;
+    }
+
+    .right-column .proof {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 0;
+    }
+
+    .proof-featured {
+      background: linear-gradient(135deg, rgba(214,185,138,0.16), rgba(255,255,255,0.06));
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 32px;
+    }
+
+    .section-head h2 {
+      margin: 12px 0 0;
+      font-size: 42px;
+      line-height: 1.03;
+      letter-spacing: -0.05em;
+      color: #fffaf3;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+      padding: 0;
+      background: none;
+      border: none;
+      box-shadow: none;
+      position: relative;
+      overflow: visible;
+      padding-left: 18px;
+      max-width: 900px;
+    }
+
+    .section-head p::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #d6b98a, rgba(214,185,138,0.12));
+    }
+
+    .card,
+    .timeline-item,
+    .team-stack,
+    .capability-block {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1.02fr 0.98fr; gap: 22px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+    .grid-col-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .card { padding: 24px; }
+
+    .card h3, .card h4 {
+      margin: 0 0 10px;
+      letter-spacing: -0.02em;
+      color: #fffaf3;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    .capability-block { padding: 22px; }
+
+    .capability-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .capability strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #fffaf3;
+    }
+
+    .capability span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 18px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 72px;
+      top: 16px;
+      bottom: 16px;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(214,185,138,0.55), rgba(214,185,138,0.10));
+    }
+
+    .timeline-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 18px;
+      padding: 24px;
+    }
+
+    .phase {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 58px;
+      padding: 10px 14px;
+      border-radius: 18px;
+      background: rgba(214,185,138,0.10);
+      border: 1px solid rgba(214,185,138,0.18);
+      color: #e6cfaa;
+      font-weight: 800;
+    }
+
+    .phase::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -28px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #d6b98a;
+      box-shadow: 0 0 0 8px rgba(214,185,138,0.10);
+    }
+
+    .timeline-item h3 {
+      margin: 0 0 8px;
+      color: #fffaf3;
+    }
+
+    .timeline-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.88;
+      max-width: 92%;
+    }
+
+    .team-stack {
+      padding: 24px;
+    }
+
+    .team-top {
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(214,185,138,0.22), rgba(214,185,138,0.12));
+      color: #fffaf3;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+      border: 1px solid rgba(214,185,138,0.20);
+    }
+
+    .team-row {
+      display: grid;
+      grid-template-columns: 1.4fr 0.65fr 0.65fr 0.65fr 0.65fr 0.45fr 0.45fr 0.45fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .team-cell {
+      min-height: 72px;
+      border-radius: 16px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .team-cell:hover {
+      background: rgba(255,255,255,0.10);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.20);
+    }
+
+    .team-cell.head {
+      background: rgba(214,185,138,0.12);
+      color: #fffaf3;
+      font-weight: 800;
+      border-color: rgba(214,185,138,0.20);
+    }
+
+    .team-cell.support {
+      background: rgba(255,255,255,0.08);
+      color: #f5f1ea;
+      font-weight: 700;
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    ul.clean {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .quote {
+      font-size: 42px;
+      line-height: 1.04;
+      letter-spacing: -0.05em;
+      max-width: 920px;
+      margin: 0 auto;
+      text-align: center;
+      color: #fffaf3;
+    }
+
+    .subquote {
+      margin: 18px auto 0;
+      max-width: 760px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 19px;
+    }
+
+    footer {
+      padding: 42px 0 72px;
+      color: var(--soft);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    a { color: #e6cfaa; }
+
+    /* immersion section */
+    #immersion-plan {
+      padding: 90px 0 48px;
+    }
+
+    .immersion-layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 36px;
+      align-items: start;
+    }
+
+    .immersion-left {
+      padding-top: 8px;
+    }
+
+    .immersion-left h2 {
+      margin: 14px 0 18px;
+      font-size: 48px;
+      line-height: 1.04;
+      letter-spacing: -0.05em;
+      color: #fffaf3;
+      max-width: 720px;
+    }
+
+    .immersion-intro {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.8;
+      margin: 0 0 34px;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .immersion-intro::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 4px;
+      bottom: 4px;
+      width: 3px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #d6b98a, rgba(214,185,138,0.12));
+    }
+
+    .immersion-quote {
+      margin-top: 42px;
+      font-size: 30px;
+      line-height: 1.2;
+      letter-spacing: -0.04em;
+      color: rgba(255,250,243,0.92);
+    }
+
+    .immersion-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .phase-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 24px 24px 22px;
+      box-shadow: 0 18px 48px rgba(0,0,0,0.22);
+      backdrop-filter: blur(16px);
+    }
+
+    .phase-card.featured {
+      background: linear-gradient(135deg, rgba(214,185,138,0.16), rgba(255,255,255,0.08));
+      border-color: rgba(214,185,138,0.22);
+    }
+
+    .phase-top {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--soft);
+    }
+
+    .phase-card h3 {
+      margin: 0 0 14px;
+      font-size: 26px;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: #fffaf3;
+    }
+
+    .phase-card ul.clean {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .phase-card ul.clean li {
+      margin-bottom: 10px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .immersion-footnote {
+      padding: 8px 4px 0;
+      color: var(--soft);
+      font-size: 15px;
+      text-align: left;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .section-head,
+      .grid-2,
+      .grid-3,
+      .team-row,
+      .immersion-layout {
+        grid-template-columns: 1fr;
+      }
+
+      nav { display: none; }
+      .timeline::before { display: none; }
+      .timeline-item { grid-template-columns: 1fr; }
+      .phase::after { display: none; }
+
+      h1 { font-size: 40px; }
+      .section-head h2 { font-size: 32px; }
+      .immersion-left h2 { font-size: 36px; }
+      .immersion-quote { font-size: 24px; margin-top: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="globe-bg"><div class="globe"></div></div>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="brand">Loop<span>ly</span></div>
+      <nav>
+        <a href="#origin">起源</a>
+        <a href="#who">我们是谁</a>
+        <a href="#why-us">为什么美国</a>
+        <a href="#why-luxury">为什么二奢</a>
+        <a href="#roadmap">路径</a>
+        <a href="#team">团队</a>
+        <a href="#immersion-plan">流程</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow">Looply · US Market Story</div>
+        <h1>让真正的好东西，拥有不止一次生命。</h1>
+        <p class="hero-lead">
+          Looply 是一个面向美国市场的大牌二手电商平台，面向美国中等收入用户，提供所见即所得、有品质保障、有价格竞争力的大牌二手商品及服务。
+        </p>
+
+        <div class="hero-card">
+          <div class="hero-grid">
+            <div class="origin-text">
+              <h3>Looply 源于转转，但它不是转转的复制。</h3>
+              <p>
+                它的起点，是一套已经在中国市场被验证、并实现规模化运营的成熟二手交易体系；它的方向，则是依托 AI 时代，构建一个未来 AI 原生的大牌二手交易平台，从美国第一站开始，面向全球扩展。
+              </p>
+
+              <div style="margin-top: 24px;">
+                <h4 style="margin: 0 0 12px; font-size: 18px; color:#fffaf3;">目前转转的组织形态</h4>
+                <div class="capability-list">
+                  <div class="capability">
+                    <strong>总部</strong>
+                    <span>产 / 运 / 研 / G&A</span>
+                  </div>
+                  <div class="capability">
+                    <strong>质检中心</strong>
+                    <span>4+20 标准化质检与鉴定体系</span>
+                  </div>
+                  <div class="capability">
+                    <strong>上门 O2O 服务</strong>
+                    <span>稳定、可复制的供给获取能力</span>
+                  </div>
+                  <div class="capability">
+                    <strong>门店与客服</strong>
+                    <span>支撑履约与服务体验的基础设施</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="right-column">
+              <div class="proof">
+                <small>规模</small>
+                <strong>16,000+</strong>
+                <span>成熟的大规模运营能力</span>
+              </div>
+              <div class="proof proof-featured">
+                <small>质检体系</small>
+                <strong>4+20</strong>
+                <span>标准化质检与鉴定网络</span>
+              </div>
+              <div class="proof">
+                <small>业务模式</small>
+                <strong style="font-size: 28px;">C2C → C2B2C</strong>
+                <span>平台驱动的标准化交易模式</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="origin">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Our Origin</div>
+            <h2>我们的起点：一套已经跑通的系统</h2>
+          </div>
+          <p>
+            Looply 带走的，不是组织结构，而是一整套可被复制的能力：从供给获取、质检定价到交易履约，再到 O2O 服务与大规模运营支持。
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <div class="capability-block">
+            <h3 style="margin:0 0 10px; color:#fffaf3;">我们已经建立的能力</h3>
+            <div class="capability-list">
+              <div class="capability">
+                <strong>全链路二手交易体系</strong>
+                <span>覆盖「供给获取 → 质检定价 → 交易履约」的完整闭环</span>
+              </div>
+              <div class="capability">
+                <strong>标准化质检与鉴定能力</strong>
+                <span>4+20 质检中心，建立工业化的鉴定与分级体系</span>
+              </div>
+              <div class="capability">
+                <strong>O2O 供给获取能力</strong>
+                <span>上门回收 + 线下门店，构建稳定且可规模化的供给网络</span>
+              </div>
+              <div class="capability">
+                <strong>大规模运营与服务能力</strong>
+                <span>1.6 万+人规模，支撑全国范围内的履约与客服体系</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="who">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Who We Are</div>
+            <h2>一个从美国出发、面向全球的大牌二手电商平台</h2>
+          </div>
+          <p>
+            Looply 不是美国版闲鱼，不是 eBay，也不是简单复制 The RealReal 或 Fashionphile。我们希望成为一个更值得信赖、可以让用户轻松选购的精品二手平台。
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <h3>所见即所得</h3>
+            <p>更清晰、透明的商品成色与细节展示，降低传统二手交易中的信息不对称。</p>
+          </div>
+          <div class="card">
+            <h3>品质保障</h3>
+            <p>通过人工 + AI 双重鉴定流程，建立稳定、可信的质量与真伪保障体系。</p>
+          </div>
+          <div class="card">
+            <h3>价格竞争力</h3>
+            <p>让用户在更安心的前提下，以更有竞争力的价格买到高品质商品。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why-us">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Why US</div>
+            <h2>为什么第一站是美国？</h2>
+          </div>
+          <p>
+            二手不等于低价。真正具备流通价值的，往往是高价值商品；而最成熟的二手经济，也首先发生在美国、欧洲、日本等成熟消费市场。
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <h3>营销是核心战场</h3>
+            <p>在二手电商中，用户心智与信任建立比供给本身更关键。Looply 的优势之一，在于更高效率地完成用户获取与转化。</p>
+          </div>
+          <div class="card">
+            <h3>社交媒体是破局关键</h3>
+            <p>如果仅依赖传统渠道打法，很难建立规模优势。Looply 的增长关键，在于在社交媒体上实现高效放大。</p>
+          </div>
+          <div class="card">
+            <h3>美国是最适合的统一市场</h3>
+            <p>美国在语言、文化与消费习惯上具备更高一致性，比欧洲更适合作为第一站验证可复制的增长模型。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why-luxury">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Why Luxury First</div>
+            <h2>为什么从二奢切入？</h2>
+          </div>
+          <p>
+            在二手市场中，并非所有品类都具备同等价值。我们选择从二奢切入，不只是为了更高客单价，更是为了一个最具确定性的起点。
+          </p>
+        </div>
+
+        <div class="grid-col-2">
+          <div class="card"><h4>高客单价</h4><p>支撑商业模型成立</p></div>
+          <div class="card"><h4>标准化程度较高</h4><p>更利于建立信任体系</p></div>
+          <div class="card"><h4>流转效率更高</h4><p>供需匹配更清晰</p></div>
+          <div class="card"><h4>利润空间更优</h4><p>支持早期增长投入</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Beliefs & Offer</div>
+            <h2>我们相信，也清楚自己要交付什么。</h2>
+          </div>
+          <p>
+            我们相信，好品牌、好商品的价值是持久的；二手交易更地球友好，也代表一种更前卫的消费态度；而所有交易的基础，都是信任与透明。
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>What We Believe</h3>
+            <ul class="clean">
+              <li>真正的好东西，不应该只拥有一次生命</li>
+              <li>二手交易是一种更地球友好、也更前卫的消费方式</li>
+              <li>通过降低信息不对称，让二手交易真正实现“所见即所得”</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>What You’ll Find on Looply</h3>
+            <ul class="clean">
+              <li>受欢迎的二手大牌商品</li>
+              <li>更清晰、透明的商品成色与细节展示</li>
+              <li>更严格的真假鉴定与商品分级</li>
+              <li>更有价格竞争力的品质商品</li>
+              <li>更安心的购物与售后体验</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Authentication</div>
+            <h2>为什么我们的鉴定更可靠？</h2>
+          </div>
+          <p>
+            所有 Looply 上架商品，都将经过“人工 + AI 双重鉴定”流程，大幅提升鉴定准确率与效率。技术团队自主研发的 AI 鉴定模型，基于大量真实鉴定数据沉淀，在奢侈品品牌上的错误率低于万分之一，并可实现秒级鉴定。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Roadmap</div>
+            <h2>我们的计划路径</h2>
+          </div>
+          <p>
+            我们不会一次性铺开，而是分阶段验证模型、建立本地供给、拓展卖家体系，并最终扩展品类。每一步，都是下一步的基础。
+          </p>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="phase">Phase 1</div>
+            <div>
+              <h3>冷启动阶段（Now）</h3>
+              <p>在自有产品尚未完全成熟前，通过 Shopify 快速建立交易能力，验证供需模型与用户行为。</p>
+              <ul class="clean" style="margin-top: 10px;">
+                <li><a href="https://looply.com/" target="_blank">https://looply.com/</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="phase">Phase 2</div>
+            <div>
+              <h3>本地供给构建（C2）</h3>
+              <p>逐步建立美国本地用户供给体系，从“平台供货”转向“用户供货”，提升供给丰富度与真实性，让商品结构真正本地化。</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="phase">Phase 3</div>
+            <div>
+              <h3>卖家体系与上门回收（C1）</h3>
+              <p>引入专业卖家体系，并建立上门回收能力（O2O），打通供给获取与履约能力，进入更可控、更高效的规模化增长阶段。</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="phase">Phase 4</div>
+            <div>
+              <h3>品类扩展（3C）</h3>
+              <p>在奢侈品模型验证成功后，逐步扩展至 3C 等高流转品类，构建多品类 recommerce 平台，为全球扩张做准备。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="team">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Our Team</div>
+            <h2>一个围绕产品、运营与增长搭起来的团队</h2>
+          </div>
+          <p>
+            我们不只是搭一个页面，而是在搭一个真正能跑起来的业务系统。因此团队的构成也围绕“产品 → 供给 → 增长 → 支撑”组织起来。
+          </p>
+        </div>
+
+        <div class="team-stack">
+          <div class="team-top">Looply负责人：李瑞凌</div>
+
+          <div class="team-row" style="grid-template-columns: 1.4fr 0.65fr 0.65fr 0.65fr 0.65fr 0.45fr 0.45fr 0.45fr;">
+            <div class="team-cell head">产品研发部：王隽宁</div>
+            <div class="team-cell">陈晓茹</div>
+            <div class="team-cell">李玉雪</div>
+            <div class="team-cell">邱鸿</div>
+            <div class="team-cell">杨明晶</div>
+            <div class="team-cell">研发</div>
+            <div class="team-cell">产品</div>
+            <div class="team-cell">UI/UX</div>
+          </div>
+
+          <div class="team-row" style="grid-template-columns: 1.4fr 0.65fr 0.65fr 0.65fr 0.65fr 0.45fr 0.45fr 0.45fr;">
+            <div class="team-cell head">业务运营部：陈晓晨</div>
+            <div class="team-cell">陈树彬</div>
+            <div class="team-cell">陈心月</div>
+            <div class="team-cell">陆安宁</div>
+            <div class="team-cell" style="visibility:hidden;"></div>
+            <div class="team-cell" style="visibility:hidden;"></div>
+            <div class="team-cell" style="visibility:hidden;"></div>
+            <div class="team-cell" style="visibility:hidden;"></div>
+          </div>
+
+          <div class="team-row" style="grid-template-columns: 1.4fr 0.65fr 0.65fr 0.65fr 0.65fr 0.45fr 0.45fr 0.45fr;">
+            <div class="team-cell head">增长部：李粤民</div>
+            <div class="team-cell">方楚标</div>
+            <div class="team-cell">付嘉城</div>
+            <div class="team-cell">袁子强</div>
+            <div class="team-cell">徐菲娅</div>
+            <div class="team-cell">剪辑</div>
+            <div class="team-cell">剪辑</div>
+            <div class="team-cell" style="visibility:hidden;"></div>
+          </div>
+
+          <div class="team-row" style="grid-template-columns: 1fr; margin-top: 18px;">
+            <div class="team-cell support" style="padding: 8px 14px; min-height: 0;">HR：尹元璐</div>
+          </div>
+
+          <div class="team-row" style="grid-template-columns: 1fr; margin-top: 12px;">
+            <div class="team-cell support" style="padding: 8px 14px; min-height: 0;">Finance：赵婷｜崔啸尘</div>
+          </div>
+
+          <div class="team-row" style="grid-template-columns: 1fr; margin-top: 12px;">
+            <div class="team-cell support" style="padding: 8px 14px; min-height: 0;">Legal：冯佳颖</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="immersion-plan">
+      <div class="wrap">
+        <div class="immersion-layout">
+          <div class="immersion-left">
+            <div class="eyebrow">Immersion Plan</div>
+            <h2>未来 Looply 同学需要熟悉的流程</h2>
+            <p class="immersion-intro">
+              随着团队成员阶段性到位，我们会分阶段安排关键业务体验，帮助大家更快理解 Looply 所依托的供给获取、质检履约与线下服务能力。
+            </p>
+
+            <div class="immersion-quote">
+              真正理解 Looply，<br>
+              要从一线开始。
+            </div>
+          </div>
+
+          <div class="immersion-right">
+            <div class="phase-card featured">
+              <div class="phase-top">Phase 1</div>
+              <h3>5月中旬安排</h3>
+              <ul class="clean">
+                <li>二奢上门体验</li>
+                <li>二奢质检仓体验</li>
+              </ul>
+            </div>
+
+            <div class="phase-card">
+              <div class="phase-top">Phase 2</div>
+              <h3>优先自行体验</h3>
+              <ul class="clean">
+                <li>超级转转</li>
+                <li>转转门店</li>
+              </ul>
+            </div>
+
+            <div class="phase-card">
+              <div class="phase-top">Phase 3</div>
+              <h3>后续安排</h3>
+              <ul class="clean">
+                <li>3C上门体验</li>
+                <li>待二奢业务阶段性完成后开展</li>
+              </ul>
+            </div>
+
+            <div class="immersion-footnote">更多体验内容，敬请期待。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <p class="quote">Where great things keep moving.</p>
+        <p class="subquote">从美国出发，走向全球。Looply 希望让二手交易变得更值得信赖，也更轻松。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>Looply · Great things deserve more than one life</footer>
+</body>
+</html>

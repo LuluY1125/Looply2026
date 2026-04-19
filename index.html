@@ -4,6 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Looply | 从美国出发，走向全球</title>
+  <script>
+  (function () {
+    const PASSWORD = "looply2026";
+    const input = prompt("Enter access code");
+
+    if (!input || input !== PASSWORD) {
+      document.body.innerHTML = `
+        <div style="
+          height:100vh;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          background:#0b0b0d;
+          color:white;
+          font-size:40px;
+          font-family:sans-serif;
+        ">
+          Access Denied
+        </div>
+      `;
+      throw new Error("Blocked");
+    }
+  })();
+</script>
   <style>
     :root {
       --bg: #0b0b0d;
